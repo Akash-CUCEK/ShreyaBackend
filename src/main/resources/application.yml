@@ -1,0 +1,20 @@
+server:
+  port: 8002
+
+spring:
+  application:
+    name: appointment-service
+  datasource:
+    url: jdbc:mysql://localhost:3306/shreya_db
+    username: root
+    password: Akash@5473
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    database-platform: org.hibernate.dialect.MySQLDialect
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8000/eureka/
