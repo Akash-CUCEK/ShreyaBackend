@@ -1,13 +1,15 @@
-# Default Profile - Dev
+# ===========================
+# Default (Common) Settings
+# ===========================
 spring:
-  profiles:
-    active: dev
+  config:
+    activate:
+      on-profile: dev  # Default profile (optional, for clarity)
+  application:
+    name: api-gateway
 
 server:
   port: 8080
-
-  application:
-    name: api-gateway
 
 cloud:
   gateway:
@@ -29,20 +31,32 @@ eureka:
     fetch-registry: true
 
 ---
+
+# ===========================
 # Dev Profile Configuration
+# ===========================
 spring:
-  profiles: dev
+  config:
+    activate:
+      on-profile: dev
   datasource:
     url: jdbc:mysql://localhost:3306/devdb
     username: devuser
     password: devpassword
 
 ---
+
+# ===========================
 # SIT Profile Configuration
+# ===========================
 spring:
-  profiles: sit
+  config:
+    activate:
+      on-profile: sit
+  application:
+    name: api-gateway
   server:
-    port: 8081  # Example: SIT port can be different
+    port: 8081
   cloud:
     gateway:
       routes:
@@ -58,18 +72,24 @@ spring:
     client:
       serviceUrl:
         defaultZone: http://sit-eureka-server:8000/eureka
-
   datasource:
     url: jdbc:mysql://localhost:3306/sitdb
     username: situser
     password: sitpassword
 
 ---
+
+# ===========================
 # Prod Profile Configuration
+# ===========================
 spring:
-  profiles: prod
+  config:
+    activate:
+      on-profile: prod
+  application:
+    name: api-gateway
   server:
-    port: 8082  # Example: PROD port can be different
+    port: 8082
   cloud:
     gateway:
       routes:
@@ -85,7 +105,6 @@ spring:
     client:
       serviceUrl:
         defaultZone: http://prod-eureka-server:8000/eureka
-
   datasource:
     url: jdbc:mysql://localhost:3306/proddb
     username: produser
