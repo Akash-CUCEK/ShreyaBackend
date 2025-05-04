@@ -1,0 +1,92 @@
+# Default Profile - Dev
+spring:
+  profiles:
+    active: dev
+
+server:
+  port: 8080
+
+  application:
+    name: api-gateway
+
+cloud:
+  gateway:
+    routes:
+      - id: user-service
+        uri: lb://USER-SERVICE
+        predicates:
+          - Path=/user/**
+      - id: appointment-service
+        uri: lb://APPOINTMENT-SERVICE
+        predicates:
+          - Path=/appointment/**
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:8000/eureka
+    register-with-eureka: true
+    fetch-registry: true
+
+---
+# Dev Profile Configuration
+spring:
+  profiles: dev
+  datasource:
+    url: jdbc:mysql://localhost:3306/devdb
+    username: devuser
+    password: devpassword
+
+---
+# SIT Profile Configuration
+spring:
+  profiles: sit
+  server:
+    port: 8081  # Example: SIT port can be different
+  cloud:
+    gateway:
+      routes:
+        - id: user-service
+          uri: lb://USER-SERVICE-SIT
+          predicates:
+            - Path=/user/**
+        - id: appointment-service
+          uri: lb://APPOINTMENT-SERVICE-SIT
+          predicates:
+            - Path=/appointment/**
+  eureka:
+    client:
+      serviceUrl:
+        defaultZone: http://sit-eureka-server:8000/eureka
+
+  datasource:
+    url: jdbc:mysql://localhost:3306/sitdb
+    username: situser
+    password: sitpassword
+
+---
+# Prod Profile Configuration
+spring:
+  profiles: prod
+  server:
+    port: 8082  # Example: PROD port can be different
+  cloud:
+    gateway:
+      routes:
+        - id: user-service
+          uri: lb://USER-SERVICE-PROD
+          predicates:
+            - Path=/user/**
+        - id: appointment-service
+          uri: lb://APPOINTMENT-SERVICE-PROD
+          predicates:
+            - Path=/appointment/**
+  eureka:
+    client:
+      serviceUrl:
+        defaultZone: http://prod-eureka-server:8000/eureka
+
+  datasource:
+    url: jdbc:mysql://localhost:3306/proddb
+    username: produser
+    password: prodpassword
